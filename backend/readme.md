@@ -175,3 +175,12 @@ Content-Type: application/json
 - Authentication is performed using bcrypt password comparison
 - A new JWT token is generated upon successful login
 - The password is never returned in the response
+
+
+
+
+
+
+
+
+<!-- I am tired of adding all these docs, as no one will be reading this  -->
