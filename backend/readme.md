@@ -84,3 +84,94 @@ When validation fails:
 - A JWT token is generated upon successful registration
 - The email address must be unique across all users
 - The password field is excluded from the returned user object for security
+
+
+
+# User Login API Documentation
+
+## HTTP method: `POST`
+## Endpoint: `/users/login`
+
+### Description
+This endpoint handles user authentication. It verifies the user's credentials and returns an authentication token along with the user object if the login is successful.
+
+### Request
+
+#### URL
+```
+POST /users/login
+```
+
+#### Headers
+```
+Content-Type: application/json
+```
+
+#### Body Parameters
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| email | String | Yes | User's registered email address |
+| password | String | Yes | User's password |
+
+#### Example Request
+```json
+{
+  "email": "john.doe@example.com",
+  "password": "secure123password"
+}
+```
+
+### Response
+
+#### Success Response (200 OK)
+```json
+{
+  "token": "jwt_token_here",
+  "user": {
+    "_id": "mongodb_generated_id",
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "john.doe@example.com"
+  }
+}
+```
+
+#### Error Responses
+
+##### Incorrect Credentials (401 Unauthorized)
+```json
+{
+  "errors": [
+    {
+      "msg": "Invalid email or password"
+    }
+  ]
+}
+```
+
+##### Validation Error (400 Bad Request)
+```json
+{
+  "errors": [
+    {
+      "msg": "Email is required",
+      "param": "email",
+      "location": "body"
+    }
+  ]
+}
+```
+
+### Validation Rules
+- **Email**: 
+  - Must be a valid email format
+  - Must be a registered email address
+- **Password**:
+  - Must match the password associated with the email address
+
+### Additional Notes
+- Authentication is performed using bcrypt password comparison
+- A new JWT token is generated upon successful login
+- The password is never returned in the response
